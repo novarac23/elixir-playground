@@ -9,6 +9,12 @@ defmodule Issues.GithubIssues do
   def issues_url(user, project) do
     "https://api.github.com/repos/#{user}/#{project}/issues"
   end
-  def handle_response({:ok, %{ body: body, status_code: 200 }}), do: { :ok, body }
-  def handle_response({:ok, %{ body: body, status_code: _ }}), do: { :error, body }
+
+  def handle_response({:ok, %{ body: body, status_code: 200 }}) do
+    {:ok, :jsx.decode(body)}
+  end
+
+  def handle_response({:ok, %{ body: body, status_code: _ }}) do
+    {:error, :jsx.decode(body)}
+  end
 end
