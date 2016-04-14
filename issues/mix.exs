@@ -34,7 +34,7 @@ defmodule Issues.Mixfile do
     ]
   end
 
-  def escript_config do
+  defp escript_config do
     [ main_module: Issues.CLI ]
   end
 end

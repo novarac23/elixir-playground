@@ -14,7 +14,6 @@ defmodule Issues.CLI do
     argv
     |> parse_args
     |> process
-    |> convert_to_list_of_hashdicts
     |> sort_into_ascending_order
   end
 
