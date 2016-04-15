@@ -14,7 +14,6 @@ defmodule Issues.CLI do
     argv
     |> parse_args
     |> process
-    |> sort_into_ascending_order
   end
 
   @doc """
@@ -74,6 +73,6 @@ defmodule Issues.CLI do
   end
 
   def sort_into_ascending_order(list_of_issues) do
-    Enum.sort list_of_issues, fn i1, i2 -> i1["created_at"] <= i2["created_at"] end
+    Enum.sort(list_of_issues, &(&1["created_at"] <= &2["created_at"]))
   end
 end
