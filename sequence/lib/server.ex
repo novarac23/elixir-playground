@@ -8,4 +8,8 @@ defmodule Sequence.Server do
   def handle_call({:reset_number, new_number}, _from, _current_number) do
     {:reply, new_number, new_number}
   end
+
+  def handle_call(:pop, _from, [head | tail]) do
+    {:reply, head, tail}
+  end
 end
