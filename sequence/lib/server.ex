@@ -12,4 +12,8 @@ defmodule Sequence.Server do
   def handle_call(:pop, _from, [head | tail]) do
     {:reply, head, tail}
   end
+
+  def handle_cast({:increment_number, delta}, current_number) do
+    {:noreply, current_number + delta}
+  end
 end
