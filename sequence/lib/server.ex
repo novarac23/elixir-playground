@@ -21,4 +21,8 @@ defmodule Sequence.Server do
     {:noreply, current_number + delta}
   end
 
+  def handle_cast({:push, item}, list) do
+    {:noreply, [item | list]}
+  end
+
 end
