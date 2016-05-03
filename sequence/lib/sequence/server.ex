@@ -1,3 +1,11 @@
+#---
+# Excerpted from "Programming Elixir",
+# published by The Pragmatic Bookshelf.
+# Copyrights apply to this code. It may not be used to create training material, 
+# courses, books, articles, and the like. Contact us if you are in doubt.
+# We make no guarantees that this code is fit for any purpose. 
+# Visit http://www.pragmaticprogrammer.com/titles/elixir for more book information.
+#---
 defmodule Sequence.Server do
   use GenServer
 
@@ -30,10 +38,4 @@ defmodule Sequence.Server do
   def terminate(_reason, {current_number, stash_pid}) do
     Sequence.Stash.save_value stash_pid, current_number
   end
-  # def handle_cast({:push, item}, list) do
-  #   {:noreply, [item | list]}
-  # end
-  # def handle_call(:pop, _from, [head | tail]) do
-  #   {:reply, head, tail}
-  # end
 end

@@ -6,10 +6,14 @@
 # We make no guarantees that this code is fit for any purpose. 
 # Visit http://www.pragmaticprogrammer.com/titles/elixir for more book information.
 #---
-defmodule Sequence do
-  use Application
+defmodule Sequence.SubSupervisor do
+  use Supervisor
 
-  def start(_type, _args) do
-    {:ok, _pid} = Sequence.Supervisor.start_link(123)
+  def start_link(stash_pid) do
+    {:ok, _pid} = Supervisor.start_link(__MODULE__, stash_pid)
+  end
+  def init(stash_pid) do
+    child_processes = [ worker(Sequence.Server, [stash_pid]) ]
+    supervise child_processes, strategy: :one_for_one
   end
 end
