@@ -1,19 +1,10 @@
 defmodule SupervisorSequence do
   use Application
+  use Supervisor
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
-    children = [
-      # Define workers and child supervisors to be supervised
-      worker(Sequence.Server, [123])
-    ]
-
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: SupervisorSequence.Supervisor]
-    Supervisor.start_link(children, opts)
+    {:ok, _pid} = SupervisorSequence.Supervisor.start_link(123)
   end
 end
