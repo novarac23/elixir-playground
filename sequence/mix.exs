@@ -18,7 +18,7 @@ defmodule Sequence.Mixfile do
   # Configuration for the OTP application
   def application do
     [
-      mod: { Sequence, [312] },
+      mod: { Sequence, [] },
       env: [initial_number: 456],
       registered: [ :sequence ]
     ]
