@@ -30,6 +30,12 @@ defmodule My do
       def unquote(name)(x), do: unquote(value) * x 
     end
   end
+
+  defmacro mydef(name) do
+    quote bind_quoted: [name: name] do
+      def unquote(name)(), do: unquote(name)
+    end
+  end
 end
 
 defmodule Test do
@@ -49,4 +55,6 @@ defmodule Test do
 
   My.times_n(3)
   My.times_n(4)
+
+  [:fred, :bert] |> Enum.each(&My.mydef(&1))
 end
