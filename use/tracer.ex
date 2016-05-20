@@ -10,9 +10,9 @@ defmodule Tracer do
   defmacro def(definition = {name, _, args}, do: content) do
     quote do
       Kernel.def(unquote(definition)) do
-        IO.puts "==> calling: #{Tracer.dump_defn(unquote(name), unquote(args))}"
+        IO.puts "==> #{IO.ANSI.green} calling: #{Tracer.dump_defn(unquote(name), unquote(args))} #{IO.ANSI.white}"
         result = unquote(content)
-        IO.puts "<<<< result: #{result}"
+        IO.puts "#{IO.ANSI.green} <<<< result: #{result}"
       end
     end
   end
