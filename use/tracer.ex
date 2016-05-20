@@ -7,7 +7,15 @@ defmodule Tracer do
     "#{name}(#{dump_args(args)})"
   end
 
+  defmacro def(definition = {:when, _, [nested_definition ={name, _, args}, _guard_clause]}, do: content) do
+    def_impl(definition, name, args, content)
+  end
+
   defmacro def(definition = {name, _, args}, do: content) do
+    def_impl(definition, name, args, content)
+  end
+
+  defp def_impl(definition, name, args, content) do
     quote do
       Kernel.def(unquote(definition)) do
         IO.puts "==> #{IO.ANSI.green} calling: #{Tracer.dump_defn(unquote(name), unquote(args))} #{IO.ANSI.white}"
@@ -29,7 +37,7 @@ end
 defmodule Test do
   use Tracer
 
-  def puts_sum_three(a, b, c), do: IO.inspect(a+b+c)
+  def puts_sum_three(a, b, c) when is_number(a), do: IO.inspect(a+b+c)
 end
 
 
