@@ -26,5 +26,22 @@ defimpl Caesar, for: [BitString, List] do
     |> List.to_string
   end
 
-  defp shift_car
+  defp shift_car(i, shift) do
+    cond do
+      is_upper_case?(i) ->
+        rotate( i - @upper_case_start, shift) + @upper_case_start
+      is_lower_case?(i) ->
+        rotate( i - @lower_case_start, shift) + @lower_case_start
+      true ->
+        i
+    end
+  end
+
+  defp rotate(i, shift) do
+    rem(i + shift, @letter_length)
+  end
+
+  def rot13(string) do
+    encrypt(string, 13)
+  end
 end
