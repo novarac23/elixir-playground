@@ -33,10 +33,38 @@ defmodule FloatSigil do
   end
 end
 
+defmodule OSigil do
+  def sigil_o(lines, _opts) do
+    [header | rows ] =  lines
+      |> String.rstrip
+      |> String.split("\n")
+      |> Enum.map(&(&1 |> String.split(",")))
+
+    header = header |> Enum.map(&String.to_atom/1)
+
+    rows
+    |> Enum.map(fn col -> processCollection(col) end)
+    |> Enum.map(fn row -> List.zip([header,row]) end)
+  end
+
+  defp processCollection(col), do:
+    col |> Enum.map(fn element ->
+                      case Integer.parse(element) do
+                        {integer, ""} -> integer
+                        _             -> case Float.parse(element) do
+                                           {float, _} -> Float.to_string(float, [decimals: 2])
+                                            _         -> element
+                                      end
+                      end
+                    end)
+
+end
+
 defmodule Example do
   import LineSigil
   import CommaSigil
   import FloatSigil
+  import OSigil
 
   def lines do
     ~l"""
@@ -47,8 +75,9 @@ defmodule Example do
 
   def koma do
     ~k"""
-    a,b,c
-    1,2,3
+    item,qty,price
+    ball,2,32
+    jigsaw,1,11
     """
   end
 
@@ -56,6 +85,15 @@ defmodule Example do
     ~m"""
     1,2.22,3
     a,b,q
+    """
+  end
+
+  def kcsv do
+    ~o"""
+    item,qty,price
+    ball,2,32
+    jigsaw,1,11
+    girl,1,100
     """
   end
 end
